@@ -30,7 +30,7 @@ public class EditJournal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        //Initialize the variablea
+        //Initialize the variables
         db = FirebaseDatabase.getInstance();
         entries = getIntent().getParcelableExtra(ENTRY_ARGS);
         titleTextView = findViewById(R.id.title);

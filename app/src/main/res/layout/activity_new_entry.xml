@@ -56,20 +56,5 @@
         app:srcCompat="@android:drawable/ic_input_add"
         android:tint="@android:color/white"/>
 
-    <ImageView
-        android:id="@+id/uploadPico"
-        android:layout_width="349dp"
-        android:layout_height="110dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
-
 
 </android.support.constraint.ConstraintLayout>

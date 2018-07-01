@@ -10,8 +10,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Calendar;
 
 public class NewJournal extends AppCompatActivity {
 
@@ -26,17 +29,21 @@ public class NewJournal extends AppCompatActivity {
     EditText details;
     EditText message;
     boolean update = false;
+    private FirebaseAuth auth;
+    Calendar datum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_entry);
         db = FirebaseDatabase.getInstance();
+        auth=FirebaseAuth.getInstance();
         entryRef = db.getReference(DATABASE_CONFIG);
         floatingActionButton = findViewById(R.id.fab);
         title = findViewById(R.id.title);
         details = findViewById(R.id.details);
         message = findViewById(R.id.message);
+        datum=Calendar.getInstance();
 
         //creaate a data type to pass to the next activity
         Bundle b=getIntent().getExtras();
@@ -61,7 +68,7 @@ public class NewJournal extends AppCompatActivity {
     }
 //equivalent of the insert command
     private void addEntry() {
-        getID = entryRef.child(DATABASE_CONFIG).push().getKey();
+        getID = entryRef.child(auth.getCurrentUser().getEmail().replace(".","").toString()).push().getKey();
         entry = getData();
         entryRef.child(getID).setValue(entry).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -79,7 +86,7 @@ public class NewJournal extends AppCompatActivity {
         entry = new JournalDataClass();
         entry.setEvent(title.getText().toString());
         entry.setDetails(details.getText().toString());
-        entry.setDate(message.getText().toString());
+        entry.setDate(datum.getTime().toString());
         entry.setId(getID);
         return entry;
     }
@@ -88,6 +95,7 @@ public class NewJournal extends AppCompatActivity {
     private void updateEntry(){
         if(getData().getId()==null){getID = entryRef.child(DATABASE_CONFIG).push().getKey();
         }
+
         entry = getData();
         entryRef.child(entry.getId()).setValue(entry);
         Intent intent = new Intent(NewJournal.this, MainActivity.class);
